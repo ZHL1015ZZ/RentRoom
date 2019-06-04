@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bd05.rent.dao.EmpDao">
+    <!-- 公司人员登录-->
+    <select id="login" parameterType="com.bd05.rent.pojo.Emp" resultType="com.bd05.rent.pojo.Emp">
+          select * from emp where pwd=#{pwd} and empId=#{empId}
+    </select>
+
+    <!-- 经理查看所有的员工-->
+    <select id="queryAllEmp" resultType="com.bd05.rent.pojo.Emp">
+          select * from emp
+    </select>
+
+    <!--经理多条件查询员工信息 -->
+    <select id="getAllEmp"  resultType="com.bd05.rent.pojo.Emp">
+        select * from emp
+            <trim prefix="where" prefixOverrides="and|or">
+                <if test="name!=null and name !=''">
+                    and name like CONCAT('%',#{name},'%')
+                </if>
+                <if test="empId !=null and empId !=''">
+                     and empId like CONCAT('%',#{empId},'%')
+                </if>
+                <if test="isDel != 0">
+                    and isDel= #{isDel}
+                </if>
+                <if test="grade!=0">
+                    and grade=#{grade}
+                </if>
+            </trim>
+    </select>
+
+    <!-- 新增员工-->
+    <insert id="addEmp" parameterType="com.bd05.rent.pojo.Emp">
+        insert into emp  values (null,#{name},#{phone},#{email},#{idCard},#{empId},#{birthday},1,null,null,'123456',#{grade},#{gender});
+    </insert>
+
+    <!-- 经理查询所有的客户-->
+    <select id="queryAllUser" resultType="com.bd05.rent.pojo.User">
+        select * from user
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="name!=null and name!=''">
+                and name like CONCAT ('%',#{name},'%')
+            </if>
+            <if test="isDel!=-0">
+                and isDel =#{isDel}
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryUserCountByEmp" resultMap="empUserCount">
+        SELECT e.*,COUNT(DISTINCT(h.holderId)) as userNum FROM emp e,house h WHERE  h.empId=e.id
+        <if test="empId!=null and empId!=''">
+            and e.empId like CONCAT ('%',#{empId},'%')
+        </if>
+        <if test="name!=null and name!=''">
+            and name like CONCAT ('%',#{name},'%')
+        </if>
+        group  by h.empId
+    </select>
+    <resultMap id="empUserCount" type="com.bd05.rent.pojo.Emp">
+        <result property="userNum" column="userNum"></result>
+    </resultMap>
+
+</mapper>
