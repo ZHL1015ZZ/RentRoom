@@ -19,44 +19,56 @@
 		<title>预约信息</title>
 
 		<!-- 公共样式 开始 -->
-		<link rel="stylesheet" type="text/css" href="/css/base.css">
-		<link rel="stylesheet" type="text/css" href="/css/iconfont.css">
-		<script type="text/javascript" src="/framework/jquery-1.11.3.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="/layui/css/layui.css">
-		<script type="text/javascript" src="/layui/layui.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../css/base.css">
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css">
+		<script type="text/javascript" src="../../framework/jquery-1.11.3.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../layui/css/layui.css">
+		<script type="text/javascript" src="../../layui/layui.js"></script>
 		<!-- 滚动条插件 -->
-		<link rel="stylesheet" type="text/css" href="/css/jquery.mCustomScrollbar.css">
-		<script src="/framework/jquery-ui-1.10.4.min.js"></script>
-		<script src="/framework/jquery.mousewheel.min.js"></script>
-		<script src="/framework/jquery.mCustomScrollbar.min.js"></script>
-		<script src="/framework/cframe.js"></script><!-- 仅供所有子页面使用 -->
-		<script src="/js/pages.js">
+		<link rel="stylesheet" type="text/css" href="../../css/jquery.mCustomScrollbar.css">
+		<script src="../../framework/jquery-ui-1.10.4.min.js"></script>
+		<script src="../../framework/jquery.mousewheel.min.js"></script>
+		<script src="../../framework/jquery.mCustomScrollbar.min.js"></script>
+		<script src="../../framework/cframe.js"></script><!-- 仅供所有子页面使用 -->
+		<script src="../../js/pages.js">			
 		</script>
 		<!-- 公共样式 结束 -->
-
-
+        <script type="text/javascript" src="js/jquery-1.12.4.js"></script>
         <script type="text/javascript">
-
             $(function(){
-                <!-- 获得删除按钮单击事件 -->
                 $("[name='delete']").click(function(){
-                    var a = $(this).val();
-                    alert(a);
-                   // window.location="/toempUptate";
+                    var id=$(this).parents("tr").children("td").eq(0).text();
+                    var ids=parseInt(id);
+					location.href="/Rent/delRent?id="+ids;
                 });
+
+
+                $("[name='pageInpTo']").click(function(){
+                    var num= $("[name='pageInp']").val();
+                    var nums=parseInt(num);
+
+                    if(nums<1||nums>${pageInfo.pages}){
+                        alert("输入的页数不存在！");
+					}else{
+                        location.href="/Rent/query?pageNo="+nums;
+					}
+                });
+
             })
         </script>
-
+        <STYLE>
+            h1{margin-top:80px;font-size: 70px;font-weight: bolder;}
+        </STYLE>
 	</head>
 
 	<body>
-		
+
 		<form action="student/query.action" method="get" id="q">
 		   <input type="hidden" name="pageIndex" value="${pageIndex}"/>
 		</form>
 
 
-			
+			<#if pageInfo.total gt 0>
 			<table class="layui-table">
 				<thead>
 					<tr>
@@ -74,37 +86,91 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1</td>
-						<td>三室一厅</td>
-						<td>2700</td>
-						<td>90天</td>
-						<td>张三</td>
-						<td>18600001111</td>
-						<td>123456789@qq.com</td>
-						<td>2019-10-12</td>
-						<td>待处理</td>
-						<td>
-							<button name="delete" value="1" class="layui-btn layui-btn-xs">删除</button>
-						</td>
-					</tr>
+					<#list  pageInfo.list as r>
+						 <tr>
+                             <td>${r.id}</td>
+                             <td>
+								 <#list hList as h>
+									 <#if h.id==r.houseId>
+										 <#list htList as ht>
+											 <#if h.hType==ht.tId>
+												 ${ht.tName}
+												 <#break>
+											 </#if>
+										 </#list>
+									 </#if>
+								 </#list>
+							 </td>
+                             <td>
+								  <#list hList as h>
+									 <#if h.id==r.houseId>
+										 ${h.priceMonth}元
+										 <#break>
+									 </#if>
+								  </#list>
+							 </td>
+                             <td>${r.rentTime}</td>
+                             <td>
+								  <#list hList as h>
+									 <#if h.id==r.houseId>
+										 <#list eList as e>
+											 <#if h.empId==e.id>
+												 ${e.name}
+												 <#break>
+											 </#if>
+										 </#list>
+									 </#if>
+								  </#list>
+							 </td>
+                             <td>${r.user.phone}</td>
+                             <td>${r.user.email}</td>
+                             <td>${r.dealDate?string("yyyy-MM-dd")}</td>
+                             <td>
+								 <#if r.state==1>
+                                     未处理
+								 <#elseif r.state==2>
+									 	通过
+								 <#elseif r.state==3>
+									 	拒绝
+								 <#else>
+									 	取消
+								 </#if>
+							 </td>
+                             <td>
+                                 <button name="delete" value="1" class="layui-btn layui-btn-xs">删除</button>
+                             </td>
+                         </tr>
+
+					</#list>
 				</tbody>
 			</table>
-			
-			
+
+
 			
 			<!--          分页        -->
-			<div>
-    			<p id="pageP" align="center">
-			    	<a href="javascript:void(0)" class="shouye">首页</a> &nbsp; &nbsp;
-			    	<a href="javascript:void(0)" class="shangyiye">上一页</a>&nbsp; &nbsp;
-			    	${pageIndex}/${totalPage}&nbsp; &nbsp;
-			    	<a href="javascript:void(0)" class="xiayiye">下一页</a>&nbsp; &nbsp;
-			    	<a href="javascript:void(0)" class="weiye">尾页</a>&nbsp; &nbsp;
-			    	<input type="text" size="2" name="pageInp"/><input type="button" value="go"/>
-			    </p>
-    		</div>
+			<div align="center">
+                <p>
+                    <span><a href="/Rent/query?pageNo=">首页</a>
+                            <span>&nbsp;<a href="/Rent/query?pageNo=
+                            <#if (pageInfo.pageNum-1)==0>1
+                            <#else >${pageInfo.pageNum-1}
+                            </#if>">上一页</a>&nbsp;</span>
+						<span >第${pageInfo.pageNum}页/共${pageInfo.pages}页</span>
+                            <a href="/Rent/query?pageNo=
+                                <#if (pageInfo.pageNum+1)  gt pageInfo.pages>
 
+                                        ${pageInfo.pages}
+
+                                       <#else>${pageInfo.pageNum+1}
+                                 </#if>">
+                                下一页</a>&nbsp;
+                            <a href="/Rent/query?pageNo=${pageInfo.pages}">尾页</a></span>
+                    <input type="text" size="2" name="pageInp"/><input type="button" name="pageInpTo" value="go"/>
+                </p>
+    		</div>
+			<#else>
+			<h1 align="center">无相关信息！</h1>
+			</#if>
 		</div>
 	</body>
 

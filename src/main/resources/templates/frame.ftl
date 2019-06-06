@@ -83,7 +83,7 @@
                     <li>
 		                <a class="menuFA" href="javascript:void(0)"><i class="iconfont icon-yunying"></i>&nbsp;&nbsp;待审批业务<i class="iconfont icon-dajiantouyou right"></i></a>
 		                <dl>
-		               		<dt><a href="javascript:void(0)" onclick="menuCAClick('/toReferendumHouseList',this)">待审核房源审批</a></dt>
+		               		<dt><a href="javascript:void(0)" onclick="menuCAClick('/addHouse/toReferendumHouseList',this)">待审核房源审批</a></dt>
 		               		<dt><a href="javascript:void(0)" onclick="menuCAClick('/toReferendunRentList',this)">待审核租房审批</a></dt>
 							<#if "${empp.grade}"== '1'>
                             <dt><a href="javascript:void(0)" onclick="menuCAClick('/toReferendunempUptate',this)">待审核更换业务员审批</a></dt>

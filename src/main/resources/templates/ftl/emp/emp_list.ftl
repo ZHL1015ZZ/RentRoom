@@ -145,17 +145,6 @@
 
 				</tbody>
 			</table>
-		\
-			<#--<div>
-    			<p id="pageP" align="center">
-			    	<a href="" class="shouye">首页</a> &nbsp; &nbsp;
-			    	<a href="javascript:void(0)" class="shangyiye">上一页</a>&nbsp; &nbsp;
-			    	${pageIndex}/${totalPage}&nbsp; &nbsp;
-			    	<a href="javascript:void(0)" class="xiayiye">下一页</a>&nbsp; &nbsp;
-			    	<a href="javascript:void(0)" class="weiye">尾页</a>&nbsp; &nbsp;
-			    	<input type="text" size="2" name="pageInp"/><input type="button" value="go"/>
-			    </p>
-    		</div>-->
                 <div>
                     <p>当前 <span >${pageInfo.pageNum}</span> 页,
                         总 <span >${pageInfo.pages}</span> 页,

@@ -14,7 +14,15 @@ public class User {
     private int gender;//性别（1男 2女）
     //该表涉及到用户的收藏表
     private List<Collection> collectionList;
+    private long houseNum;
 
+    public long getHouseNum() {
+        return houseNum;
+    }
+
+    public void setHouseNum(long houseNum) {
+        this.houseNum = houseNum;
+    }
 
     public List<Collection> getCollectionList() {
         return collectionList;

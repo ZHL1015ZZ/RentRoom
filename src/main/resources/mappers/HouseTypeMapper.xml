@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bd05.rent.dao.HouseTypeDao">
+
+    <!--查询所有的房间类型 -->
+    <select id="queryAllHouseType" resultMap="houseType">
+        select * from housetype
+    </select>
+    <!--根据id查询一条房间类型-->
+    <select id="detailHouseTypeById" resultMap="houseType">
+        select  * from housetype where  tid = #{tid}
+    </select>
+
+    <!--查询房间类型总数 -->
+    <select id="queryAllCountHouseType">
+        select  count(1) from  housetype
+    </select>
+
+    <!-- 新增一条房间类型-->
+    <insert id="addHouseType" parameterType="com.bd05.rent.pojo.HouseType" >
+        insert into housetype values (default ,#{tName})
+    </insert>
+    <!-- 修改一条房间类型-->
+    <update id="updateHouseType" parameterType="com.bd05.rent.pojo.HouseType">
+        update housetype set tName =#{tName} where tid = #{tid}
+    </update>
+
+
+    <!--删除一条房间类型-->
+    <delete id="deleteHouseType" >
+        delete from housetype where  tid=#{tid}
+    </delete>
+
+
+    <!-- 房间类型-->
+    <resultMap id="houseType" type="com.bd05.rent.pojo.HouseType">
+        <id property="tId" column="tid"/>
+        <result property="tName" column="tName"/>
+    </resultMap>
+
+</mapper>

@@ -41,6 +41,7 @@
                     alert(a);
                     window.location="/toUserUpdetaHouseEmp";
                 });
+                $("[name='state']").val("${state}");
             })
         </script>
 	</head>
@@ -48,16 +49,17 @@
 	<body>
 		<div class="cBody">
 			<div class="console">
-				<form class="layui-form" action="">
+				<form class="layui-form" action="/userHouse/toUserHouse">
+                    <input type="hidden" name="uid" value="${user.id}">
 					<div class="layui-form-item">
 						<div class="layui-input-inline">
-		                    <select name="provid" id="provid" lay-filter="provid">
+		                    <select name="state" id="provid" lay-filter="provid">
 		                    	 <option value="">全部</option>
-		                        <option value="">已出租</option>
-		                        <option value="">待出租</option>
+		                        <option value="2">已出租</option>
+		                        <option value="1">待出租</option>
 		                    </select>
 		                </div>
-						<button class="layui-btn" lay-submit lay-filter="formDemo">检索</button>
+						<button class="layui-btn" lay-submit >检索</button>
 					</div>
 				</form>
 
@@ -77,7 +79,7 @@
 			<table class="layui-table">
 				<thead>
 					<tr>
-						<th>收藏时间</th>
+						<th>上线时间</th>
 						<th>房间类型</th>					
 						<th>出租类型</th>
 						<th>房间编号</th>
@@ -89,35 +91,83 @@
 						<th>操作</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td>2019-01-21</td>
-						<td>三室一厅</td>
-						<td>整租</td>
-						<td>主卧</td>
-						<td>2400元</td>
-						<td>正在出租</td>
-						<td>北京市朝阳区123号</td>
-						<td>李四</td>
-						<td>13420123201</td>
-						<td>
-							<button  name="update" value="123" class="layui-btn layui-btn-xs">更换业务员申请</button>
-						</td>
-					</tr>
-				</tbody>
+                <tbody>
+					<#if pageInfo.list?? && (pageInfo.list?size>0)>
+						<#list pageInfo.list as house>
+
+                    <tr>
+
+                        <td>${house.addDate?string("yyyy-MM-dd")}</td>
+                        <td>
+							${house.houseType.tName}
+                        </td>
+                        <td>
+							<#if "${house.rentType}" =='1'>
+                                整租
+							<#else >
+								合租
+							</#if>
+                        </td>
+                        <td>
+							<#if "${house.room}" =='1'>
+                                整间
+							<#elseif "${house.room}" =='2'>
+								主卧
+							<#else>
+								次卧
+							</#if>
+                        </td>
+                        <td>${house.priceMonth}</td>
+                        <td>
+							<#if "${house.rentState}" =='1'>
+                                待出租
+							<#else >
+									已出租
+							</#if>
+
+
+                        </td>
+                        <td>${house.address}</td>
+                        <td>${house.emp.name}</td>
+                        <td>${house.emp.phone}</td>
+                        <td>
+                            <button  name="update" value="${house.id}" class="layui-btn layui-btn-xs">更换业务员申请</button>
+                        </td>
+                    </tr>
+
+						</#list>
+						<#else >
+					<tr >
+                        <td colspan="10" align="center" style="color: red; font-size: larger"> 您还没有出租房屋</td>
+                    </tr>
+					</#if>
+
+           	 </tbody>
+
 			</table>
 			
 				<!--          分页        -->
-			<div>
-    			<p id="pageP" align="center">
-			    	<a href="javascript:void(0)" class="shouye">首页</a> &nbsp; &nbsp;
-			    	<a href="javascript:void(0)" class="shangyiye">上一页</a>&nbsp; &nbsp;
-			    	${pageIndex}/${totalPage}&nbsp; &nbsp;
-			    	<a href="javascript:void(0)" class="xiayiye">下一页</a>&nbsp; &nbsp;
-			    	<a href="javascript:void(0)" class="weiye">尾页</a>&nbsp; &nbsp;
-			    	<input type="text" size="2" name="pageInp"/><input type="button" value="go"/>
-			    </p>
-    		</div>
+            <div>
+                <p>当前 <span >${pageInfo.pageNum}</span> 页,
+                    总 <span >${pageInfo.pages}</span> 页,
+                    共 <span >${pageInfo.total}</span> 条记录
+                    <span><a href="/userHouse/toUserHouse?uid=${uid}&state=${state}">首页</a>
+                            <span>&nbsp;<a href="/userHouse/toUserHouse?uid=${uid}&state=${state}&pageNo=
+                            <#if (pageInfo.pageNum-1)==0>1
+                            <#else >${pageInfo.pageNum-1}
+                            </#if>">上一页</a>&nbsp;</span>
+
+                            <a href="/userHouse/toUserHouse?uid=${uid}&state=${state}&pageNo=
+                                <#if (pageInfo.pageNum+1)  gt pageInfo.pages>
+
+                                        ${pageInfo.pages}
+
+                                       <#else>${pageInfo.pageNum+1}
+                                 </#if>">
+                                下一页</a>&nbsp;
+                            <a href="/userHouse/toUserHouse?uid=${uid}&state=${state}&pageNo=${pageInfo.pages}">尾页</a></span></p>
+            </div>
+
 		</div>
 	</body>
 

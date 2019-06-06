@@ -1,7 +1,5 @@
 package com.bd05.rent.controller;
 
-import com.bd05.rent.service.UserService;
-import com.bd05.rent.service.impl.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,18 +7,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 
 @Controller
-@RequestMapping("user")
 public class TestUserController {
 
-    @Resource
-    private UserService service;
+   // @Resource
+   // private UserService service;
 
     //去个人资料页面
     @RequestMapping(value = "/toLogin")
     public String toLogin(Model model){
         System.out.println("1");
-        model.addAttribute("u",service.detailUser(1));
-        System.out.println(service.detailUser(1).getName());
+       // model.addAttribute("u",service.detailUser(1));
+       // System.out.println(service.detailUser(1).getName());
         return "toLogin";
     }
 
@@ -59,8 +56,8 @@ public class TestUserController {
     //去个人资料页面
     @RequestMapping(value = "/touserDetail")
     public String touserDetail(Model model){
-        model.addAttribute("u",service.detailUser(1));
-        System.out.println(service.detailUser(1).getName());
+        //model.addAttribute("u",service.detailUser(1));
+       // System.out.println(service.detailUser(1).getName());
         return "/ftl/user/user_detail";
     }
     //去完善信息页面

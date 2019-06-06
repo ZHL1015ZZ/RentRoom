@@ -54,9 +54,9 @@
                 <div class="col-md-7">
                     <div class="clearfix">
                         <#if "${user.name}" == '' >
-                            <a href="/user/login-user"> <button class="btn btn-warning btn-lg header-btn hidden-sm">立即登录</button></a>
+                            <a href="/user/toLoginUser"> <button class="btn btn-warning btn-lg header-btn hidden-sm">立即登录</button></a>
                        <#else >
-                           <a href="/toLogin"> <button class="btn btn-warning btn-lg header-btn hidden-sm">${user.name}</button></a>
+                           <a href="/toframeUser"> <button class="btn btn-warning btn-lg header-btn hidden-sm">${user.name}</button></a>
                         </#if>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                         <li><a href="/toSidebar">热门</a></li>
                         <li><a href="/tosingleproperty">详情</a></li>
                         <li><a href="/toGallery">展示</a></li>
-                        <#if "${user.name}" == '' >
+                        <#if "${user.name}" != '' >
                         <li>
                             <a href="">个人中心</a>
                             <ul>

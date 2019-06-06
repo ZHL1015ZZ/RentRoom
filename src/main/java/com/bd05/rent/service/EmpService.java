@@ -18,8 +18,11 @@ public interface EmpService {
     //新增员工
     int addEmp(Emp emp);
     //经理查询所有客户
-    PageInfo<User> queryAllUser(String name,Integer isDel,Integer page, Integer size);
+    PageInfo<User> queryAllUser(long empId,String name,Integer isDel,Integer page, Integer size);
 
     //经理查询员工的客户数量
     PageInfo<Emp> queryUserCountByEmp (@Param("name")String name,@Param("empId")String empId  ,Integer page, Integer size);
+
+    //查询所有员工
+    List<Emp> queryAllEmpByIdByGeade();
 }

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("house")
 public class TestHouseController {
     //去待审批房源页面
     @RequestMapping("/toReferendumHouseList")

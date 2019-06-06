@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bd05.rent.dao.AddHouseDao">
+
+
+    <!-- 查询待审批房源信息-->
+    <select id="queryAllAddHouseByEmp_Grade" resultMap="addHouse">
+        SELECT  p.`name` AS pname,a.`id` AS aid,u.`name` AS uname,hy.`tName`,a.`room`,a.`address`,a.`addDate`,a.`addState`,u.`phone` AS uphone
+        FROM addhouse a ,USER u ,housetype hy,emp p
+        WHERE u.`id`=a.`holderId`
+        AND hy.`tid` = a.`hType`
+        AND a.`empId` = p.`id`
+        AND a.addState = 1
+              <if test="grade != '' and grade == 2 and grade !=null">
+                  AND a.empId  = #{empId}
+              </if>
+               <if test="tid !=''  and tid !=null and tid &gt; 0 ">
+                   AND hy.`tid` = #{tid}
+               </if>
+               <if test="phone !='' and phone != null ">
+                   AND u.`phone` LIKE CONCAT('%',#{phone},'%')
+               </if>
+               <if test="name !='' and name != null">
+                 AND  u.`name` LIKE CONCAT('%',#{name},'%')
+               </if>
+    </select>
+
+    <resultMap id="addHouse" type="com.bd05.rent.pojo.AddHouse">
+        <id property="id" column="aid"/>
+        <result property="address" column="address"/>
+        <result property="room" column="room"/>
+        <result property="addDate" column="addDate"/>
+        <result property="addState" column="addState"/>
+        <association property="houseType" resultMap="houseType"/>
+        <association property="user" resultMap="user"/>
+        <association property="emp" resultMap="emp"/>
+    </resultMap>
+
+
+    <resultMap id="houseType" type="com.bd05.rent.pojo.HouseType">
+        <result property="tName" column="tName"/>
+    </resultMap>
+
+
+    <resultMap id="user" type="com.bd05.rent.pojo.User">
+        <result property="name" column="uname"/>
+        <result property="phone" column="uphone"/>
+    </resultMap>
+    <resultMap id="emp" type="com.bd05.rent.pojo.Emp">
+        <result property="name" column="pname"/>
+    </resultMap>
+</mapper>

@@ -39,15 +39,25 @@
 				margin-right: 30%;
 			}
 		</style>
+        <script type="text/javascript">
+            <!-- 隐藏按钮  input标签添加不可修改属性  -->
+            $(function(){
+                $("input[type=radio][value='${user.gender}']").attr("checked",true);
+
+            });
+
+        </script>
+
 	</head>
 
 	<body>
 		<div class="cBody">
-			<form id="addForm" class="layui-form" action="">
+			<form id="addForm" class="layui-form" action="/user/doUserUpdate" method="post">
 				<div class="layui-form-item">
 					<label class="layui-form-label">姓名</label>
 					<div class="layui-input-inline shortInput">
-						<input value="张三"  type="text" name="name" required lay-verify="required|ZHCheck" placeholder="只允许输入中文" autocomplete="off" class="layui-input">
+						<input value="${user.name}"  type="text" name="name" required lay-verify="required|ZHCheck" placeholder="只允许输入中文" autocomplete="off" class="layui-input">
+                        <input type="hidden" name="id" value="${user.id}">
 					</div>
             		<i class="iconfont icon-huaban bt"></i>
 				</div>
@@ -63,7 +73,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">身份证号</label>
 					<div class="layui-input-inline shortInput">
-						<input value="12012365230232152" type="text" name="idCard" required lay-verify="required|identity" autocomplete="off" class="layui-input" placeholder="请输入18位身份证号">
+						<input value="${user.idCard}" type="text" name="idCard" required lay-verify="required|identity" autocomplete="off" class="layui-input" placeholder="请输入18位身份证号">
 					</div>
 					<i class="iconfont icon-huaban bt"></i>
 				</div>
@@ -71,7 +81,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">手机号</label>
 					<div class="layui-input-inline shortInput">
-						<input value="13200213201" type="text" name="phone" required lay-verify="required|phone" placeholder="例：13000000000" autocomplete="off" class="layui-input">
+						<input value="${user.phone}" type="text" name="phone" required lay-verify="required|phone" placeholder="例：13000000000" autocomplete="off" class="layui-input">
 					</div>
 					<i class="iconfont icon-huaban bt"></i>
 				</div>
@@ -79,13 +89,13 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">邮箱</label>
 					<div class="layui-input-inline shortInput">
-						<input value="22632@qq.com" type="text" name="email" autocomplete="off" class="layui-input">
+						<input value="${user.email}" type="text" name="email" autocomplete="off" class="layui-input">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">生日</label>
 					<div class="layui-input-inline shortInput">
-						<input type="date" name="title" autocomplete="off" class="layui-input">
+						<input value="${(user.birthday?string("yyyy-MM-dd"))!"未设置"}" type="date" name="birthday1" autocomplete="off" class="layui-input">
 					</div>
 				</div>								
 				<div class="layui-form-item">

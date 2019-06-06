@@ -32,6 +32,16 @@
 		<script src="/framework/cframe.js"></script><!-- 仅供所有子页面使用 -->
 		<!-- 公共样式 结束 -->
 		<script type="text/javascript">
+			$(function () {
+			    var error  = "${error}";
+
+			    if(error ==="1"){
+			        alert("原始密码错误，请重新输入");
+				}
+            })
+
+		</script>
+		<script type="text/javascript">
 		    var validityPwd = function(){
 		    	var Pwd = document.getElementById('Pwd');
 		        var newPwd = document.getElementById('newPwd');		        
@@ -51,11 +61,12 @@
 
 	<body>
 		<div class="cBody">
-			<form id="addForm" class="layui-form" action="">
+			<form id="addForm" class="layui-form" action="/user/doUserPassword" method="post">
 				<div class="layui-form-item">
 					<label class="layui-form-label">原始密码</label>
 					<div class="layui-input-inline shortInput">
 						<input id="Pwd" type="password" name="oldpassword" oninput="validityPwd()"  required lay-verify="required" autocomplete="off" class="layui-input">
+						<input type="hidden" name="id" value="${user.id}">
 					</div>
 				</div>
 				<div class="layui-form-item">

@@ -14,7 +14,16 @@
         <link rel="stylesheet" type="text/css" href="/css/style.css" />
 		<link rel="stylesheet" type="text/css" href="/css/animate-custom.css" />
         <script src="/js/jquery-1.12.4.js"></script>
+        <script type="text/javascript">
+            $(function(){
+                var error = "${error}";
+                if(error ==="1"){
+                    alert("您的用户名或密码错误");
+                }
+            })
+        </script>
     </head>
+
 
 <script type="text/javascript">
     var validityPwd = function(){
@@ -47,15 +56,15 @@
                     <a class="hiddenanchor" id="tologin"></a>
                     <div id="wrapper">
                         <div id="login" class="animate form">
-                            <form  action="/dologin" autocomplete="on" method="post"  >
+                            <form  action="/user/dologin" autocomplete="on" method="post"  >
                                 <h1>用户登录</h1>
                                 <p>
                                     <label for="username" class="uname" data-icon="u" >您的电子邮件或手机号</label>
-                                    <input id="username" name="user" required="required" pattern="(\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14})|(0?(13|14|15|18|17)[0-9]{9})" type="text" placeholder="请输入您的电子邮件或手机号"/>
+                                    <input id="username" name="name1" required="required" pattern="(\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14})|(0?(13|14|15|18|17)[0-9]{9})" type="text" placeholder="请输入您的电子邮件或手机号"/>
                                 </p>
                                 <p> 
                                     <label for="password" class="youpasswd" data-icon="p">密码</label>
-                                    <input id="password" name="pwd" required="required" type="password" placeholder="请输入您的密码" />
+                                    <input id="password" name="pwd1" required="required" type="password" placeholder="请输入您的密码" />
                                 </p>
                                 <p class="keeplogin"> 
 									<input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping" /> 
@@ -71,7 +80,7 @@
                             </form>						
                         </div>							
                         <div id="register" class="animate form">
-                            <form  action="mysuperscript.php" autocomplete="on"  method="post">
+                            <form  action="/user/doAddUser" autocomplete="on"  method="post">
                                 <h1>用户注册</h1> 
                                 <p> 
                                     <label for="usernamesignup" class="phone" data-icon="u">手机号</label>

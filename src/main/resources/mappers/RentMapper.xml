@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bd05.rent.dao.RentList">
+    <select id="queryRent" resultMap="a">
+      select r.*,u.name,u.phone,u.email from rent r,user u where u.id=r.userId  and r.userId=#{userId}  and state=1 and r.isdel=1 order by startdate desc
+    </select>
+
+    <select id="queryRents" resultMap="a">
+      select r.*,u.name,u.phone,u.email from rent r,user u where u.id=r.userId  and r.userId=#{userId}  and state=2 and leaveState!=2 and r.isdel=1 order by startdate desc
+    </select>
+
+    <select id="getEmp" resultType="com.bd05.rent.pojo.Emp">
+        select * from emp
+    </select>
+
+    <select id="queryHouseType" resultType="com.bd05.rent.pojo.HouseType">
+        select * from housetype
+    </select>
+
+    <select id="queryHouse" resultType="com.bd05.rent.pojo.House">
+        select * from house
+    </select>
+
+    <update id="delRent">
+        update  rent set isdel=2 where id=#{id}
+    </update>
+
+    <update id="tuiRent">
+        update  rent set leaveState=2 where id=#{id}
+    </update>
+
+    <resultMap id="a" type="com.bd05.rent.pojo.Rent">
+        <id property="id" column="id"/>
+        <result property="id" column="id"/>
+        <association property="user" javaType="com.bd05.rent.pojo.User">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="phone" column="phone"/>
+            <result property="email" column="email"/>
+        </association>
+    </resultMap>
+</mapper>

@@ -48,6 +48,7 @@
 				if(a !== ''){
 				    $("#${flag}").click();
 				}
+
 			})
 		</script>
 	</head>
@@ -64,27 +65,28 @@
 		    <div class="menu">
 		        <ul>
 		        	<li>		               
-		                 <a href="javascript:void(0)" onclick="menuCAClick('/touserDetail',this)"><i class="iconfont icon-yonghu1 left"></i>个人资料<i class="iconfont icon-dajiantouyou right"></i></a>
+		                 <a href="javascript:void(0)" onclick="menuCAClick('/user/doDetailUser',this)"><i class="iconfont icon-yonghu1 left" id="6"></i>个人资料<i class="iconfont icon-dajiantouyou right"></i></a>
 		            </li>
 		            
 		            <li >
-		                 <a  href="javascript:void(0)" onclick="menuCAClick('/touserUpdate',this)"><i class="iconfont icon-yonghu" id="1" ></i>&nbsp;&nbsp;完善信息<i class="iconfont icon-dajiantouyou right"></i></a>
+		                 <a  href="javascript:void(0)" onclick="menuCAClick('/user/touserUpdate',this)"><i class="iconfont icon-yonghu" id="1" ></i>&nbsp;&nbsp;完善信息<i class="iconfont icon-dajiantouyou right"></i></a>
 		            </li>
 
 		            <li>		               
-		                 <a  href="javascript:void(0)" onclick="menuCAClick('/toUserListRent',this)"><i class="iconfont icon-dingdan"></i>&nbsp;&nbsp;预约信息<i class="iconfont icon-dajiantouyou right"></i></a>
+		                 <a  href="javascript:void(0)" onclick="menuCAClick('/Rent/toUserListRent',this)"><i class="iconfont icon-dingdan"></i>&nbsp;&nbsp;预约信息<i class="iconfont icon-dajiantouyou right"></i></a>
 		            </li>
 		            <li>		               
 		                 <a href="javascript:void(0)" onclick="menuCAClick('/toUserCollection',this)"><i class="iconfont icon-shangpin"></i>&nbsp;&nbsp;收藏<i class="iconfont icon-dajiantouyou right"></i></a>
 		            </li>
 		            <li>		               
-		                 <a href="javascript:void(0)" onclick="menuCAClick('/toUserToListRent',this)"><i class="iconfont icon-biaodanwancheng"  id="3"></i>&nbsp;&nbsp;已租房屋<i class="iconfont icon-dajiantouyou right"></i></a>
+		                 <a href="javascript:void(0)" onclick="menuCAClick('/Rent/toUserToListRent',this)"><i class="iconfont icon-biaodanwancheng"  id="3"></i>&nbsp;&nbsp;已租房屋<i class="iconfont icon-dajiantouyou right"></i></a>
+		            </li>
+		            <li>
+
+		                 <a href="javascript:void(0)" onclick="menuCAClick('/userHouse/toUserHouse?uid=${user.id}',this)"><i class="iconfont icon-liuliangyunpingtaitubiao03"></i>&nbsp;&nbsp;我的房源<i class="iconfont icon-dajiantouyou right"></i></a>
 		            </li>
 		            <li>		               
-		                 <a href="javascript:void(0)" onclick="menuCAClick('/toUserHouse',this)"><i class="iconfont icon-liuliangyunpingtaitubiao03"></i>&nbsp;&nbsp;我的房源<i class="iconfont icon-dajiantouyou right"></i></a>
-		            </li>
-		            <li>		               
-		                 <a  href="javascript:void(0)" onclick="menuCAClick('/toUseraddhouse',this)"><i class="iconfont icon-tubiao-" id="4"></i>&nbsp;&nbsp;发布房源<i class="iconfont icon-dajiantouyou right"></i></a>
+		                 <a  href="javascript:void(0)" onclick="menuCAClick('/userHouse/toUseraddhouse',this)"><i class="iconfont icon-tubiao-" id="4"></i>&nbsp;&nbsp;发布房源<i class="iconfont icon-dajiantouyou right"></i></a>
 		            </li>
 		            
 		            
@@ -99,10 +101,10 @@
 				<img class="jt" src="/images/top_jt.png"/>
 				<div class="topMenu">
 					<ul>
-						<li><a href="index.html" ><i class="iconfont icon-shouye"></i>返回首页</a></li>
-						<li><a  href="javascript:void(0)" onclick="menuCAClick('toUserPassword',this)" id="2" ><i class="iconfont icon-xiugaimima"></i>修改密码</a></li>
+						<li><a href="/toIndex" ><i class="iconfont icon-shouye"></i>返回首页</a></li>
+						<li><a  href="javascript:void(0)" onclick="menuCAClick('/user/toUserPassword',this)" id="2" ><i class="iconfont icon-xiugaimima"></i>修改密码</a></li>
 						
-						<li><a href="/tologin-user"><i class="iconfont icon-084tuichu"></i>注销</a></li>
+						<li><a href="/user/toLoginUser"> <i class="iconfont icon-084tuichu"></i>注销</a></li>
 					</ul>
 				</div>
 			</div>
@@ -111,10 +113,10 @@
 			<!-- 核心区域 - 开始 -->
 			<div class="frameMain">
 				<div class="title" id="frameMainTitle">
-					<span><i class="iconfont icon-xianshiqi"></i>欢迎***光临</span>
+					<span><i class="iconfont icon-xianshiqi"></i>个人中心</span>
 				</div>
 				<div class="con">
-					<iframe id="mainIframe"  src="/touserDetail" scrolling="no"></iframe>
+					<iframe id="mainIframe"  src="/user/doDetailUser" scrolling="no"></iframe>
 				</div>
 			</div>
 			<!-- 核心区域 - 结束 -->

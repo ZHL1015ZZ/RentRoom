@@ -88,8 +88,7 @@
 						<th>邮箱</th>
 						<th>生日</th>
 						<th>状态</th>
-						<th>再租房源数量</th>
-                        <th>出租房源数量</th>
+						<th>房源数量</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -115,8 +114,8 @@
 								已解约
 							</#if>
 						</td>
-						<td>1</td>
-                        <td>0</td>
+						<td>${s.houseNum}</td>
+
 						<td>														
 							<button  name="update" class="layui-btn layui-btn-xs" value="1">解约</button>
 						</td>

@@ -19,18 +19,18 @@
 		<title>已租房屋</title>
 
 		<!-- 公共样式 开始 -->
-		<link rel="stylesheet" type="text/css" href="/css/base.css">
-		<link rel="stylesheet" type="text/css" href="/css/iconfont.css">
-		<script type="text/javascript" src="/framework/jquery-1.11.3.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="/layui/css/layui.css">
-		<script type="text/javascript" src="/layui/layui.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../css/base.css">
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css">
+		<script type="text/javascript" src="../../framework/jquery-1.11.3.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../layui/css/layui.css">
+		<script type="text/javascript" src="../../layui/layui.js"></script>
 		<!-- 滚动条插件 -->
-		<link rel="stylesheet" type="text/css" href="/css/jquery.mCustomScrollbar.css">
-		<script src="/framework/jquery-ui-1.10.4.min.js"></script>
-		<script src="/framework/jquery.mousewheel.min.js"></script>
-		<script src="/framework/jquery.mCustomScrollbar.min.js"></script>
-		<script src="/framework/cframe.js"></script><!-- 仅供所有子页面使用 -->
-		<script src="/js/pages.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../css/jquery.mCustomScrollbar.css">
+		<script src="../../framework/jquery-ui-1.10.4.min.js"></script>
+		<script src="../../framework/jquery.mousewheel.min.js"></script>
+		<script src="../../framework/jquery.mCustomScrollbar.min.js"></script>
+		<script src="../../framework/cframe.js"></script><!-- 仅供所有子页面使用 -->
+		<script src="../../js/pages.js"></script>	
 		<!-- 公共样式 结束 -->
         <script type="text/javascript">
 
@@ -43,13 +43,41 @@
                 });
             })
         </script>
+
+        <script type="text/javascript" src="js/jquery-1.12.4.js"></script>
+        <script type="text/javascript">
+            $(function(){
+                $("[name='delete']").click(function(){
+                    var id=$("[name='rId']").val();
+                    var ids=parseInt(id);
+
+                    location.href="/Rent/tuiRent?id="+ids;
+                });
+
+
+                $("[name='pageInpTo']").click(function(){
+                    var num= $("[name='pageInp']").val();
+                    var nums=parseInt(num);
+
+                    if(nums<1||nums>${pageInfo.pages}){
+                        alert("输入的页数不存在！");
+                    }else{
+                        location.href="/Rent/queryTo?pageNo="+nums;
+                    }
+                });
+
+            })
+        </script>
+		<STYLE>
+			h1{margin-top:80px;font-size: 70px;font-weight: bolder;}
+		</STYLE>
 	</head>
 
 	<body>
 		<form action="student/query.action" method="get" id="q">
 		   <input type="hidden" name="pageIndex" value="${pageIndex}"/>
 		</form>
-		
+		<#if pageInfo.total gt 0>
 		<div class="cBody">
 			<table class="layui-table">
 				<thead>
@@ -57,7 +85,7 @@
 						<th>房子类型</th>
 						<th>出租类型</th>
 						<th>房子朝向</th>
-						<th>面积</th>
+						<th>面积</th>s
 						<th>月租金</th>						
 						<th>租用月数</th>
 						<th>押金</th>
@@ -70,38 +98,135 @@
 					</tr>
 				</thead>
 				<tbody>
+				<#list pageInfo.list as r>
 					<tr>
-						<td>三室一厅</td>
-						<td>整租</td>
-						<td>南</td>
-						<td>92㎡</td>
-						<td>2700</td>
-						<td>90天</td>
-						<td>5000元</td>
-						<td>金山</td>
-						<td>2019-03-01</td>
-						<td>张三</td>
-						<td>18600001111</td>
+						<td>
+							<input type="hidden" name="rId" value="${r.id}">
+							<#list hList as h>
+									 <#if h.id==r.houseId>
+										 <#list htList as ht>
+											 <#if h.hType==ht.tId>
+												 ${ht.tName}
+												 <#break>
+											 </#if>
+										 </#list>
+									 </#if>
+							</#list>
+						</td>
+						<td>
+							<#list hList as h>
+									 <#if h.id==r.houseId>
+										 <#list htList as ht>
+											 <#if h.rentType==1 >
+											 	整租
+											 <#break>
+											 <#else >
+											 	合租
+												 <#break>
+											 </#if>
+										 </#list>
+									 </#if>
+							</#list>
+						</td>
+						<td>
+							<#list hList as h>
+									 <#if h.id==r.houseId>
+										 <#list htList as ht>
+											 ${h.direction}
+											 <#break>
+										 </#list>
+									 </#if>
+							</#list>
+						</td>
+						<td>
+							<#list hList as h>
+									 <#if h.id==r.houseId>
+										 <#list htList as ht>
+											 ${h.area}
+											 <#break>
+										 </#list>
+									 </#if>
+							</#list>
+						</td>
+						<td>
+							<#list hList as h>
+									 <#if h.id==r.houseId>
+										 <#list htList as ht>
+											 ${h.priceMonth}元
+											 <#break>
+										 </#list>
+									 </#if>
+							</#list>
+						</td>
+						<td>
+							${r.rentTime}
+						</td>
+						<td>
+							<#list hList as h>
+									 <#if h.id==r.houseId>
+										 ${h.yajin}元
+										 <#break>
+									 </#if>
+							</#list>
+						</td>
+						<td>
+							<#list hList as h>
+									 <#if h.id==r.houseId>
+										 ${h.address}
+										 <#break>
+									 </#if>
+							</#list>
+						</td>
+						<td>
+							${r.enterDate?string("yyyy-MM-dd")}
+						</td>
+						<td>
+							<#list hList as h>
+									 <#if h.id==r.houseId>
+										 <#list eList as e>
+											 <#if h.empId==e.id>
+												 ${e.name}
+												 <#break>
+											 </#if>
+										 </#list>
+									 </#if>
+							</#list>
+						</td>
+						<td>
+							${r.user.phone}
+						</td>
 						<td>
 							<button value="1" name="delete" class="layui-btn layui-btn-xs">退房</button>
 						</td>
 					</tr>
-					
+				</#list>
 				</tbody>
 			</table>
 			
 				<!--          分页        -->
-			<div>
-    			<p id="pageP" align="center">
-			    	<a href="javascript:void(0)" class="shouye">首页</a> &nbsp; &nbsp;
-			    	<a href="javascript:void(0)" class="shangyiye">上一页</a>&nbsp; &nbsp;
-			    	${pageIndex}/${totalPage}&nbsp; &nbsp;
-			    	<a href="javascript:void(0)" class="xiayiye">下一页</a>&nbsp; &nbsp;
-			    	<a href="javascript:void(0)" class="weiye">尾页</a>&nbsp; &nbsp;
-			    	<input type="text" size="2" name="pageInp"/><input type="button" value="go"/>
-			    </p>
-    		</div>
-			
+            <div align="center">
+                <p>
+                    <span><a href="/Rent/queryTo?pageNo=">首页</a>
+                            <span>&nbsp;<a href="/Rent/queryTo?pageNo=
+                            <#if (pageInfo.pageNum-1)==0>1
+                            <#else >${pageInfo.pageNum-1}
+                            </#if>">上一页</a>&nbsp;</span>
+						<span >第${pageInfo.pageNum}页/共${pageInfo.pages}页</span>
+                            <a href="/Rent/queryTo?pageNo=
+                                <#if (pageInfo.pageNum+1)  gt pageInfo.pages>
+
+                                        ${pageInfo.pages}
+
+                                       <#else>${pageInfo.pageNum+1}
+                                 </#if>">
+                                下一页</a>&nbsp;
+                            <a href="/Rent/queryTo?pageNo=${pageInfo.pages}">尾页</a></span>
+                    <input type="text" size="2" name="pageInp"/><input type="button" name="pageInpTo" value="go"/>
+                </p>
+            </div>
+			<#else>
+				<h1 align="center">无相关信息！</h1>
+			</#if>
 			
 		</div>
 	</body>

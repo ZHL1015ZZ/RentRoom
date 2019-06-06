@@ -38,36 +38,36 @@
 	<script type="text/javascript">
 		
 		$(function(){
+		    $("[name=name]").val("${name}");
+		    $("[name=phone]").val("${phone}");
+		    $("[name=tid]").val("${tid}");
 			<!-- 去查看页面 -->
 			$("[name='detail']").click(function(){
 				var a = $(this).val();
 				alert(a);
-				window.location="/toReferendumAddHouse";
+				window.location="/addHouse/toReferendumAddHouse";
 			});
 		})
 	</script>
 
 	<body>
-		
-		<form action="student/query.action" method="get" id="q">
-		   <input type="hidden" name="pageIndex" value="${pageIndex}"/>
-		</form>
-		
+
 		<div class="cBody">
 			<div class="console">
-				<form class="layui-form" action="">
+				<form class="layui-form" action="/addHouse/toReferendumHouseList">
 					<div class="layui-form-item">
 						<div class="layui-input-inline">
 							<input type="text" name="name"  placeholder="客户姓名" autocomplete="off" class="layui-input">
 						</div>
 						<div class="layui-input-inline">
-							<input type="text" name="empId" placeholder="手机号" autocomplete="off" class="layui-input">
+							<input type="text" name="phone" placeholder="手机号" autocomplete="off" class="layui-input">
 						</div>
 						<div class="layui-input-inline">
-		                    <select name="isDel" id="isDel" lay-filter="provid">
-		                    	<option value="0">出租类型</option>
-		                        <option value="1">整租</option>
-		                        <option value="2">合租</option>
+		                    <select name="tid" id="isDel" lay-filter="provid">
+                                <option value="0">出租类型</option>
+								<#list houseType as h >
+									<option value="${h.tId}">${h.tName}</option>
+								</#list>
 		                    </select>
 		                </div>
 						<button class="layui-btn" lay-submit lay-filter="formDemo">检索</button>
@@ -78,8 +78,6 @@
 					layui.use(['form','laydate'], function() {
 						var form = layui.form;
 						var laydate = layui.laydate;
-				
-										
 					});
 				</script>
 			</div>
@@ -89,40 +87,66 @@
 					<tr>
 						<th>订单编号</th>
 						<th>房东姓名</th>
-						<th>房子编号</th>
-						<th>租用月数</th>
-						<th>房子上线日期</th>
-						<th>订单状态</th>
-						<th>联系方式</th>
+						<th>房间类型</th>
+						<th>卧室</th>
+						<th>地址</th>
+						<th>申请时间</th>
+						<th>处理状态</th>
+						<th>房东电话</th>
+						<th>业务员</th>
 						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1</td>
-						<td>张三</td>
-						<td>1</td>
-						<td>6</td>
-						<td>2019-04-10</td>
-						<td>待审批</td>
-						<td>130100032120</td>
-						<td>
-							<button name="detail" class="layui-btn layui-btn-xs" value="a">订单详情</button>
-						</td>
-
+				<#if pageInfo.list?? && (pageInfo.list?size>0)>
+						<#list pageInfo.list as add >
+                        <tr>
+                            <td>${add.id}</td>
+                            <td>${add.user.name}</td>
+                            <td>${add.houseType.tName}</td>
+                            <td>${add.room}</td>
+                            <td>${add.address}</td>
+                            <td>${(add.addDate?string("yyyy-MM-dd"))!"未设置"}</td>
+                            <td>
+								<#if add.addState == 1  >
+                                          待处理
+								</#if>
+							</td>
+                            <td>${add.user.phone}</td>
+                            <th>${add.emp.name}</th>
+                            <td>
+                                <button name="detail" class="layui-btn layui-btn-xs" value="${add.id}">订单详情</button>
+                            </td>
+                        </tr>
+						</#list>
+						<#else >
+							<tr >
+								<td colspan="10" align="center" style="color: red; font-size: larger">没有符合条件的待审核房源信息</td>
+							</tr>
+				</#if>
 				</tbody>
 			</table>
-			<!--          分页        -->
-			<div>
-    			<p id="pageP" align="center">
-			    	<a href="javascript:void(0)" class="shouye">首页</a> &nbsp; &nbsp;
-			    	<a href="javascript:void(0)" class="shangyiye">上一页</a>&nbsp; &nbsp;
-			    	${pageIndex}/${totalPage}&nbsp; &nbsp;
-			    	<a href="javascript:void(0)" class="xiayiye">下一页</a>&nbsp; &nbsp;
-			    	<a href="javascript:void(0)" class="weiye">尾页</a>&nbsp; &nbsp;
-			    	<input type="text" size="2" name="pageInp"/><input type="button" value="go"/>
-			    </p>
-    		</div>
+            <!--          分页        -->
+           <div>
+                <p>当前 <span >${pageInfo.pageNum}</span> 页,
+                    总 <span >${pageInfo.pages}</span> 页,
+                    共 <span >${pageInfo.total}</span> 条记录
+                    <span><a href="/addHouse/toReferendumHouseList?name=${name}&phone=${phone}&tid=${tid}&empId=${empp.id}&grade=${empp.grade}">首页</a>
+                            <span>&nbsp;<a href="/addHouse/toReferendumHouseList?name=${name}&phone=${phone}&tid=${tid}&empId=${empp.id}&grade=${empp.grade}&pageNo=
+                            <#if (pageInfo.pageNum-1)==0>1
+                            <#else >${pageInfo.pageNum-1}
+                            </#if>">上一页</a>&nbsp;</span>
+
+                            <a href="/addHouse/toReferendumHouseList?name=${name}&phone=${phone}&tid=${tid}&empId=${empp.id}&grade=${empp.grade}&pageNo=
+                                <#if (pageInfo.pageNum+1)  gt pageInfo.pages>
+
+                                        ${pageInfo.pages}
+
+                                       <#else>${pageInfo.pageNum+1}
+                                 </#if>">
+                                下一页</a>&nbsp;
+                            <a href="/addHouse/toReferendumHouseList?name=${name}&phone=${phone}&tid=${tid}&empId=${empp.id}&grade=${empp.grade}&pageNo=${pageInfo.pages}">尾页</a></span></p>
+            </div>
 		
 		</div>
 	</body>

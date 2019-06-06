@@ -1,34 +1,50 @@
 package com.bd05.rent.service.impl;
 
-import com.bd05.rent.dao.Testdao;
-import com.bd05.rent.pojo.Emp;
+import com.bd05.rent.dao.UserMapper;
 import com.bd05.rent.pojo.User;
 import com.bd05.rent.service.UserService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Resource
-    private Testdao dao;
+    private UserMapper dao;
+
 
     @Override
-    public User detailUser(long id) {
-        return dao.detailUser(id);
+    public User LoginUser(User user) {
+        return dao.LoginUser(user);
     }
 
     @Override
-    public PageInfo<Emp> queryAllEmp(Integer page, Integer size) {
-         //开启分页查询，写在查询语句上方
-        //只有紧跟在PageHelper.startPage方法后的第一个Mybatis的查询（Select）方法会被分页。
-        PageHelper.startPage(page,size);
-        List<Emp> listEmp =  dao.queryAllEmp();
-        PageInfo<Emp> pageInfo = new PageInfo<>(listEmp);
-        return pageInfo;
+    public User queryById(long id) {
+        return dao.queryById(id);
+    }
+
+    @Override
+    public boolean updateUser(User user) {
+        int i = dao.updateUser(user);
+        if(i>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updetaPassword(String pwd, long id,String oldpassword) {
+        if(dao.updetaPassword(pwd,id,oldpassword)>0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int addUser(User user) {
+
+        return dao.addUser(user);
     }
 }

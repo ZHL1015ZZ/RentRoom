@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bd05.rent.dao.UserMapper">
+
+    <select id="LoginUser" parameterType="com.bd05.rent.pojo.User" resultType="com.bd05.rent.pojo.User">
+        select * from user where pwd =#{pwd} AND isDel = 1
+        <if test="phone!=null and phone !=''">
+            and   phone=#{phone}
+        </if>
+        <if test="email!=null and email !=''">
+            and   email=#{email}
+        </if>
+    </select>
+
+    <insert id="addUser" parameterType="com.bd05.rent.pojo.User" >
+        INSERT INTO USER VALUES(DEFAULT,#{name},#{phone},#{email},#{idCard},default,1,#{pwd},default)
+    </insert>
+
+
+
+    <update id="updateUser" parameterType="com.bd05.rent.pojo.User">
+       UPDATE  USER SET NAME=#{name},phone=#{phone},email=#{email},idCard=#{idCard},gender=#{gender},
+        birthday=#{birthday} where id=#{id}
+    </update>
+
+
+    <select id="queryById" resultType="com.bd05.rent.pojo.User">
+        SELECT * FROM user WHERE id=#{id}
+    </select>
+
+    <update id="updetaPassword">
+          UPDATE user SET pwd = #{pwd} WHERE id =#{id } and pwd =#{oldpassword}
+    </update>
+
+
+    <resultMap id="user" type="com.bd05.rent.pojo.User">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="phone" property="phone"></result>
+        <result column="email" property="email"></result>
+        <result column="idCard" property="idCard"></result>
+        <result column="birthday" property="birthday"></result>
+        <result column="pwd" property="pwd"></result>
+        <result column="isDel" property="isDel"></result>
+        <result column="gender" property="gender"></result>
+    </resultMap>
+</mapper>

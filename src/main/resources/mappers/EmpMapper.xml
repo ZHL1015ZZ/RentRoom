@@ -38,17 +38,21 @@
         insert into emp  values (null,#{name},#{phone},#{email},#{idCard},#{empId},#{birthday},1,null,null,'123456',#{grade},#{gender});
     </insert>
 
-    <!-- 经理查询所有的客户-->
+    <!-- 查询所有的客户-->
     <select id="queryAllUser" resultType="com.bd05.rent.pojo.User">
-        select * from user
-        <trim prefix="where" prefixOverrides="and|or">
+        select u.*,count(h.id) as houseNum from user u,house h where h.holderId=u.id
+
             <if test="name!=null and name!=''">
-                and name like CONCAT ('%',#{name},'%')
+                and u.name like CONCAT ('%',#{name},'%')
             </if>
             <if test="isDel!=-0">
-                and isDel =#{isDel}
+                and u.isDel =#{isDel}
             </if>
-        </trim>
+            <if test="empId!=1">
+               and h.empId=#{empId}
+            </if>
+            group by u.id
+
     </select>
 
     <select id="queryUserCountByEmp" resultMap="empUserCount">
@@ -64,5 +68,13 @@
     <resultMap id="empUserCount" type="com.bd05.rent.pojo.Emp">
         <result property="userNum" column="userNum"></result>
     </resultMap>
+
+
+    <!-- 发布房源页面 查询所有的2业务员-->
+    <select id="queryAllEmpByIdByGeade" resultType="com.bd05.rent.pojo.Emp">
+        select e.id,e.name from emp e
+        where e.isDel = 1
+        and e.grade = 2
+    </select>
 
 </mapper>

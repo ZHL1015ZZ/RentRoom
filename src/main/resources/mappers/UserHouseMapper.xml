@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bd05.rent.dao.UserHouseMapper">
+
+    <select id="queryAllMyHouseById" resultMap="myHouse" >
+        SELECT u.id AS uid,u.`name`,u.`phone`,u.`email`,u.`idCard`,u.`birthday`,u.`pwd`,u.`gender`,h.*,e.`email` AS eemail, e.`name` AS ename ,e.`phone` AS ephone, hy.* FROM `user` u ,house h,emp e ,housetype hy
+        WHERE  h.`empId` = e.`id`
+        AND h.`hType` = hy.`tid`
+        and h.isDel=1
+        AND u.`id`= h.`holderId`
+        AND h.`holderId`=#{id}
+                <if test=" state &gt; 0" >
+                    AND  h.`rentState` = #{state}
+                </if>
+
+    </select>
+
+    <resultMap id="myHouse" type="com.bd05.rent.pojo.House">
+        <id property="id" column="id"/>
+        <result property="addDate" column="addDate"/>
+        <association property="emp" javaType="com.bd05.rent.pojo.Emp" resultMap="emp" />
+        <association property="user" javaType="com.bd05.rent.pojo.User" resultMap="user"/>
+        <association property="houseType" javaType="com.bd05.rent.pojo.HouseType" resultMap="houseType"/>
+    </resultMap>
+    <!--员工结果集 -->
+    <resultMap id="emp" type="com.bd05.rent.pojo.Emp">
+        <result property="name" column="ename"/>
+        <result property="phone" column="ephone"/>
+        <result property="email" column="eemail"/>
+    </resultMap>
+
+        <!-- 用户表-->
+        <resultMap id="user" type="com.bd05.rent.pojo.User">
+            <id property="id" column="uid"/>
+             <result property="name" column="name"/>
+             <result property="phone" column="phone"/>
+             <result property="email" column="email"/>
+             <result property="idCard" column="idCard"/>
+             <result property="birthday" column="birthday"/>
+             <result property="isDel" column="isDel"/>
+             <result property="pwd" column="pwd"/>
+             <result property="gender" column="gender"/>
+        </resultMap>
+
+    <!-- 房间类型-->
+    <resultMap id="houseType" type="com.bd05.rent.pojo.HouseType">
+        <id property="tId" column="tId"/>
+        <result property="tName" column="tName"/>
+    </resultMap>
+
+    <!-- 发布房源-->
+    <insert id="addHouse"  parameterType="com.bd05.rent.pojo.AddHouse">
+        INSERT INTO addhouse VALUES(
+            null ,#{hType},#{area},#{direction},#{rentType},#{room},#{holderId},#{priceMonth},${rentState},#{address},1,DEFAULT,DEFAULT,
+            #{isHaveLift},1,NOW(),#{isCar},#{yajin},#{empId},#{isFur},#{isAir},#{isIce},#{isTV},#{isWifi},#{read},
+            #{p1},#{p2},#{p3},#{p4},#{p5})
+    </insert>
+
+
+
+</mapper>

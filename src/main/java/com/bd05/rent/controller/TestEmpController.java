@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -69,7 +70,7 @@ public class TestEmpController {
         return "/ftl/emp/emp_list";
     }*/
     public String toempList(@RequestParam(value = "pageNo",defaultValue="1")int pageNo,
-                            @RequestParam(value ="pageSize",defaultValue = "1")int pageSize, Model model,
+                            @RequestParam(value ="pageSize",defaultValue = "4")int pageSize, Model model,
                             @RequestParam(value = "name",required = false)String name,
                             @RequestParam(value = "empId",required = false)String empId,
                             @RequestParam(value = "isDel",defaultValue="0")int isDel,
@@ -117,9 +118,11 @@ public class TestEmpController {
     public String toempList(@RequestParam(value = "pageNo",defaultValue="1")int pageNo,
                             @RequestParam(value ="pageSize",defaultValue = "3")int pageSize, Model model,
                             @RequestParam(value = "name",required = false)String name,
-                            @RequestParam(value = "isDel",defaultValue="1")int isDel
+                            @RequestParam(value = "isDel",defaultValue="1")int isDel,
+                            HttpServletRequest request
     ) {
-        model.addAttribute("pageInfo", service.queryAllUser( name,isDel,pageNo, pageSize));
+        long empId=((Emp)request.getSession().getAttribute("empp")).getId();
+        model.addAttribute("pageInfo", service.queryAllUser( empId,name,isDel,pageNo, pageSize));
         model.addAttribute("name",name);
         model.addAttribute("isDel",isDel);
         return "/ftl/maintainUser/maintainUser_list";

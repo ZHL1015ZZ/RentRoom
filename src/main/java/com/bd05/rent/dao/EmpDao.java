@@ -21,8 +21,12 @@ public interface EmpDao {
     int addEmp(Emp emp);
 
     //经理查询所有客户
-    List<User> queryAllUser(@Param("name")String name,@Param("isDel")Integer isDel);
+    List<User> queryAllUser(@Param("empId")long empId,@Param("name")String name,@Param("isDel")Integer isDel);
 
     //经理查询员工的客户数量
      List<Emp> queryUserCountByEmp (@Param("empId")String empId ,@Param("name")String name);
+
+    //查询所有业务员
+    List<Emp> queryAllEmpByIdByGeade();
+
 }

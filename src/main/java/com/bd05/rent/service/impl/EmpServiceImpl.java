@@ -47,9 +47,9 @@ public class EmpServiceImpl implements EmpService {
     }
 
     @Override
-    public PageInfo<User> queryAllUser(String name, Integer isDel,Integer page, Integer size) {
+    public PageInfo<User> queryAllUser(long empId,String name, Integer isDel,Integer page, Integer size) {
         PageHelper.startPage(page,size);
-        List<User> listEmp =  dao.queryAllUser(name, isDel);
+        List<User> listEmp =  dao.queryAllUser(empId,name, isDel);
         System.out.println("集合长度是"+listEmp.size());
         PageInfo<User> pageInfo = new PageInfo<>(listEmp);
         return pageInfo;
@@ -62,5 +62,12 @@ public class EmpServiceImpl implements EmpService {
         System.out.println("集合长度是"+listEmp.size());
         PageInfo<Emp> pageInfo = new PageInfo<>(listEmp);
         return pageInfo;
+    }
+
+
+
+    @Override
+    public List<Emp> queryAllEmpByIdByGeade() {
+        return dao.queryAllEmpByIdByGeade();
     }
 }
